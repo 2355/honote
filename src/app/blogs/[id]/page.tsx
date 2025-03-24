@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>
 };
 
 export default async function Page({ params }: Props) {
+  const { id } = await params;
   const res = await hono.api.blogs[":id"].$get({
-    param: { id: params.id },
+    param: { id },
   });
 
   const blog = await res.json();
